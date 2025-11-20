@@ -1,6 +1,9 @@
-
+<x-app-layout>
+    <x-slot>
+      <link rel="stylesheet" href="{{ asset('css/cart/index.css') }}">
+ 
 <div class="container mt-4">
-    <h2>🛒 Mon Panier</h2>
+    <h2>🛒 Mon Panierrr</h2>
 
     {{-- Message de succès --}}
     @if(session('message'))
@@ -70,4 +73,5 @@
         </div>
     @endif
 </div>
-
+  </x-slot>
+</x-app-layout>

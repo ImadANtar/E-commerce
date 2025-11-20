@@ -1,0 +1,110 @@
+/* product-create.css */
+
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f3f4f6; /* couleur moderne */
+    color: #333;
+}
+
+/* Container */
+form, .container {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 25px 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+/* Header */
+h1 {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    color: #111827;
+}
+
+/* Messages */
+h4 {
+    margin-bottom: 15px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+/* Labels */
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    margin-top: 12px;
+}
+
+/* Inputs & select */
+input[type="text"],
+input[type="file"],
+select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    font-size: 1rem;
+}
+
+/* Button */
+button {
+    padding: 10px 20px;
+    background-color: #6366f1;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: 15px;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(99, 102, 241, 0.3);
+}
+
+/* Retour link */
+a {
+    display: inline-block;
+    margin-bottom: 15px;
+    color: #6366f1;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .container, form {
+        padding: 20px 15px;
+    }
+
+    input[type="text"],
+    input[type="file"],
+    select {
+        font-size: 0.95rem;
+    }
+
+    button {
+        width: 100%;
+    }
+}

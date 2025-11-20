@@ -65,4 +65,20 @@ class OrderController extends Controller
         $order=Order::with('items.product','payment')->where('user_id',Auth::id())->findOrFail($id);
         return view('orders.show',compact('order'));
     }
+
+    public function adminIndex(){
+        $orders=Order::with('user')->latest()->get();
+        return view('admin.orders.index',compact('orders'));
+    }
+
+    public function updateStatus(Request $request,$id){
+        $request->validate([
+            'status'=>'required|in:pending,paid,skipped,delivered,canceled'
+        ]);
+        $order=Order::findOrFail($id);
+        $order->status=$request->status;
+        $order->save();
+
+        return redirect()->back()->with('message', 'Statut mis à jour avec succès.');
+    }
 }

@@ -1,94 +1,92 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            Produits
+        </h2>
+        <link rel="stylesheet" href="{{ asset('css/products/index.css') }}">
+    </x-slot>
 
-<div class="container mt-5">
-    <h1>Liste des produits</h1>
-<a href={{route('products.create')}}>createde prod</a>
-@if(session('message'))
-<p>{{session('message')}}</p>
-@endif
-    @if($products->count() > 0)
-    <table border="5">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Nom</th>
-                <th>Description</th>
-                <th>Prix</th>
-                <th>Stock</th>
-                <th>Catégorie</th>
-                <th>Image</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($products as $index => $product)
-            <tr>
-                <td>{{ $index + 1 }}</td>
-                <td>{{ $product->name }}</td>
-                <td>{{ $product->description ?? '-' }}</td>
-                <td>{{ number_format($product->price, 2) }} DH</td>
-                <td>{{ $product->stock }}</td>
-                <td>{{ $product->category->name ?? 'Non défini' }}</td>
-                <td>
-                    @if($product->image)
-        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" width="90">
+    <div class="products-container">
+
+        {{-- Bouton Add Product si admin --}}
+        @auth
+            @if($user->role === 'admin')
+                <div class="add-product-wrapper">
+                    <a href="{{ route('products.create') }}" class="add-product-btn">+ Add Product</a>
+                    <a href="{{ route('admin.orders.index') }}" class="add-product-btn"> Voir les commande</a>
+
+                </div>
+
+            @endif
+        @endauth
+        @auth
+        @if($user->role==='user')
+        <div class="add-product-wrapper">
+             <a href="{{route('orders.index')}}" class="add-product-btn">orders</a>
+             </div>
+         @endif
+        @endauth
+ 
+        <div class="products-grid">
+            @foreach($products as $product)
+               
+                    
+                    {{-- IMAGE --}}
+                    <div class="product-card">
+    <div class="product-img">
+        @if($product->image)
+            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
+        @else
+            <img src="" alt="No image">
+        @endif
+    </div>
+
+                    {{-- NOM --}}
+                    <h3 class="product-title">{{ $product->name }}</h3>
+
+                    {{-- DESCRIPTION --}}
+                    <p class="product-description">{{ $product->description }}</p>
+
+                    {{-- PRIX --}}
+                    <p class="product-price">{{ $product->price }} MAD</p>
+
+                    {{-- BOUTONS ADMIN --}}
+                    @auth
+                        @if($user->role === 'admin')
+                            <div class="admin-buttons">
+                                <a href="{{ route('products.edit', $product->id) }}" class="btn edit-btn">Edit</a>
+
+                                <form action="{{ route('products.delete', $product->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn delete-btn" onclick="return confirm('vous etes sure de supprimer?')">Delete</button>
+                                </form>
+                            </div>
+                        @endif
+                    @endauth
+
+                    {{-- BOUTON CLIENT --}}
+                    @auth
+                      
+                        @if($user->role === 'user')
+                      
+                            <form action="{{ route('cart.add') }}" method="POST" class="cart-form">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                <input type="number" name="quantité" value="1" min="1" class="qty">
+                                <button class="btn cart-btn">Ajouter au panier</button>
+                            </form>
+                        @endif
                     @else
-        -
-                    @endif
-                </td>
-                  <td>
-                <a href={{route('products.edit',$product->id)}} style="display:inline-block;">edit prod</a>
-                <form action={{route('products.delete',$product->id)}} method="POST">
-                    @csrf
-                    @method('DELETE')
-              
-                      <button type="submit" onclick="return confirm('voulez vous supprimé?')">delete</button>
-                </form>
-                <form action={{route('cart.add')}} method="POST">
-                    @csrf
-                    <input type="hidden" name="product_id" value="{{$product->id}}"/>
-                    <input type="number" name="quantité" value="1" min="1">
-                    <button>ajouter au panieeer</button>
-                </form> 
-            </td>
-            </tr>
-          
+                        <a href="{{ route('login') }}" class="btn login-btn">Ajouter au panier</a>
+                       
+                    @endauth
+
+                </div>
             @endforeach
+           
+                       
+        </div>
 
-            <script>
-                document.addEventListener('DOMContentLoaded',function(){
-                    //selection la button add
-                    const buttons= document.querySeletorAll('.add-to-cart');
-
-                    buttons.forEach(button=>{
-                        button.addEventListener('click',function(){
-
-                            const productId=this.getAttribute('data-product-id');
-
-                            fetch('/cart/add',{
-                                method:'POST',
-                                headers:{
-                                    'Content-Type':'application/json', //format json
-                                    'X-CSRF-TOKEN':'{{csrf_token()}}'
-                                },
-
-                                body: JSON.stringify({'product_id':productId}) //donnée envoyé
-                            })
-                            .then(response=>response.json()) //on attend une résponse Json
-
-                            .then(data=>{
-                                document.getElementById('cart-message').textContent=data.message;
-                            })
-                            .catch(error=>{
-                                console.error('Erreur AJAX',error);
-                            });
-                        });
-                    });
-                });
-            </script>
-        </tbody>
-    </table>
-    @else
-        <p>Aucun produit trouvé.</p>
-    @endif
-</div>
-
+    </div>
+</x-app-layout>

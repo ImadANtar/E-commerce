@@ -1,8 +1,6 @@
-{{-- @if($errors->anny())
-    @foreach ($errors as $error)
-        <p>{{$error}}</p>
-    @endforeach
-    @endif --}}
+<x-app-layout>
+<x-slot>
+<link rel="stylesheet" href="{{asset('css/orders/index.css')}}">
 
 @if(session('message'))
     <p>{{session('message')}}</p>
@@ -22,12 +20,14 @@
  @foreach($orders as $order)
     <tr>
        
-        <td>{{$order->id}}</td>
-        <td>{{$order->total}}</td>
-        <td>{{$order->status}}</td>
-        <td>{{$order->created_at->format('d/m/Y')}}</td>
-        <td><a href={{route('orders.show',$order->id)}}>Voir</a></td>
+ <td data-label="Id">{{$order->id}}</td>
+    <td data-label="Total">{{$order->total}} DH</td>
+    <td data-label="Status">{{$order->status}}</td>
+    <td data-label="Date">{{$order->created_at->format('d/m/Y')}}</td>
+    <td data-label="Action"><a href="{{route('orders.show',$order->id)}}">Voir</a></td>
         
     </tr>
     @endforeach
 </table>
+</x-slot>
+</x-app-layout>

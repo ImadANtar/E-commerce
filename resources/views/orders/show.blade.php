@@ -1,3 +1,8 @@
+<x-app-layout>
+    <x-slot>
+
+<link rel="stylesheet" href="{{asset('css/orders/show.css')}}">
+
 <h2>Détails de la commande #{{ $order->id }}</h2>
 
 <table border="3">
@@ -13,10 +18,10 @@
     <a href={{route('orders.index')}}>retour orders</a>
     @foreach($order->items as $item)
     <tr>
-        <td>{{ $item->product->name }}</td>
-        <td>{{ $item->quantity }}</td>
-        <td>{{ number_format($item->price,2) }} MAD</td>
-        <td>{{ number_format($item->price * $item->quantity,2) }} MAD</td>
+       <td data-label="Produit">{{ $item->product->name }}</td>
+    <td data-label="Quantité">{{ $item->quantity }}</td>
+    <td data-label="Prix unitaire">{{ number_format($item->price,2) }} MAD</td>
+    <td data-label="Sous-total">{{ number_format($item->price * $item->quantity,2) }} MAD</td>
     </tr>
     @endforeach
 </tbody>
@@ -37,3 +42,5 @@
 @else
     <p><strong>Commande déjà enregistrée avec paiement cash on delivery.</strong></p>
 @endif
+    </x-slot>
+</x-app-layout>

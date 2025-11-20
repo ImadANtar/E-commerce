@@ -8,11 +8,11 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::get('/dashboard',[ProductController::class,'index'])->name('dashboard');
+Route::get('/',[ProductController::class,'index'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -38,6 +38,12 @@ Route::middleware(['auth','admin'])->group(function(){
     Route::get('/products/{id}/edit',[ProductController::class,'edit'])->name('products.edit');
     Route::put('/products/{id}',[ProductController::class,'update'])->name('products.update');
     Route::delete('/products/{id}',[ProductController::class,'delete'])->name('products.delete');
+
+
+    /////
+
+    Route::get('/admin/orders',[OrderController::class,'adminIndex'])->name('admin.orders.index');
+    Route::put('/admin/orders/{id}',[OrderController::class,'updateStatus'])->name('admin.orders.update');
 });
     
 

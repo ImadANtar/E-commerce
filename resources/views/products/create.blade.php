@@ -1,3 +1,9 @@
+<x-app-layout>
+  <x-slot>
+<header>
+  <link rel="stylesheet" href="{{asset('css/products/create.css')}}">
+</header>
+
 <h1>create categoy</h1>
 @if(session('message'))
 <h4>{{session('message')}}</h4>
@@ -38,3 +44,5 @@
 
 </form>
 
+  </x-slot>
+</x-app-layout>
